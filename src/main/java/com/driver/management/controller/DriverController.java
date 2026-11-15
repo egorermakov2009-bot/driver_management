@@ -25,6 +25,11 @@ public class DriverController {
         return driverService.getAllDrivers();
     }
 
+    @GetMapping("/{id}")
+    public Driver getDriverById(@PathVariable Long id) {
+        return driverService.getDriverById(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Driver createDriver(@Valid @RequestBody DriverRequest request) {
