@@ -12,6 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/drivers")
+@CrossOrigin(origins = {
+        "http://localhost:5173"
+})
 public class DriverController {
 
     private final DriverService driverService;
@@ -43,6 +46,32 @@ public class DriverController {
                 request.getDateOfBirth()
         );
         return driverService.createDriver(driver);
+    }
+
+    @PutMapping("/{id}")
+    public Driver updateDriver(
+            @PathVariable Long id,
+            @Valid @RequestBody DriverRequest request) {
+
+        Driver driver = convertToDriver(request);
+        return driverService.updateDriver(id, driver);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteDriver(@PathVariable Long id) {
+        driverService.deleteDriver(id);
+    }
+
+    private Driver convertToDriver(DriverRequest request) {
+        return new Driver(
+                request.getFirstName(),
+                request.getLastName(),
+                request.getEmail(),
+                request.getPhone(),
+                request.getLicenseNumber(),
+                request.getDateOfBirth()
+        );
     }
 
 }
